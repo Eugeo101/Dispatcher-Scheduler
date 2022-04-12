@@ -85,11 +85,30 @@ public class RRProcess extends Process implements Comparable<RRProcess> {
                         processes[i].setRemainingBurstTime(0);
                     }
                 }
+                if(processes[(i + 1) % n].getArrivalTime() > t){
+                    if (reaminingProcess(processes, i) != -1){
+                        i = reaminingProcess(processes, i) - 1;
+                        continue;
+                    }
+                    else {
+                        result_arr.add(new TimeStamp(t, processes[i+1].getArrivalTime(), "IDLE"));
+                        t = processes[i+1].getArrivalTime();
+                    }
+                }
             }
       
             if (done == true)
               return result_arr;
         }
+    }
+    
+    public static int reaminingProcess(RRProcess[] processes, int i){
+        for (int j = 0; j < i + 1; j++) {
+            if (processes[j].remainingBurstTime > 0){
+                return j;
+            } 
+        }
+        return -1;
     }
     
     public static void main(String args[]){
@@ -101,11 +120,15 @@ public class RRProcess extends Process implements Comparable<RRProcess> {
 //        my_process[4] = new RRProcess("P2", 0, 4, 0);
         Vector<Process> my_process = new Vector<Process>(); //1 vector
         
-        my_process.add(new Process("P5", 3, 2, 0));
-        my_process.add(new Process("P1", 1, 2, 0));
-        my_process.add(new Process("P3", 2, 1, 0));
-        my_process.add(new Process("P4", 2, 3, 0));
-        my_process.add(new Process("P2", 1, 4, 0));
+//        my_process.add(new Process("P5", 3, 2, 0));
+//        my_process.add(new Process("P1", 1, 2, 0));
+//        my_process.add(new Process("P3", 2, 1, 0));
+//        my_process.add(new Process("P4", 2, 3, 0));
+//        my_process.add(new Process("P2", 1, 4, 0));
+        my_process.add(new Process("P1", 1, 4, 0));
+        my_process.add(new Process("P1_2", 3, 4, 0));
+        my_process.add(new Process("P2", 10, 4, 0));
+        
         
         RRProcess my_proc[] = vecToArr(my_process); // 2 to array
         Vector<TimeStamp> vector1 = RRSchedule(my_proc, 2.0F); //3rd RR quantium = input float
@@ -113,10 +136,10 @@ public class RRProcess extends Process implements Comparable<RRProcess> {
         System.out.println("avg Waiting Time:\t" + avgWaitingTime(my_proc));
         System.out.println("avg Turn Around Time:\t" + avgTurnAroundTime(my_proc));
         
-        //FCFS
-        Vector<TimeStamp> vector2 = RRSchedule(my_proc, maximum(my_proc)); //3rd FCFC quantum = maximum(my_proc)
-        printArray(vector2);
-        System.out.println("avg Waiting Time:\t" + avgWaitingTime(my_proc)); //4th avg waiting  vs avg turnaround
-        System.out.println("avg Turn Around Time:\t" + avgTurnAroundTime(my_proc));
+//        //FCFS
+//        Vector<TimeStamp> vector2 = RRSchedule(my_proc, maximum(my_proc)); //3rd FCFC quantum = maximum(my_proc)
+//        printArray(vector2);
+//        System.out.println("avg Waiting Time:\t" + avgWaitingTime(my_proc)); //4th avg waiting  vs avg turnaround
+//        System.out.println("avg Turn Around Time:\t" + avgTurnAroundTime(my_proc));
     }
 }

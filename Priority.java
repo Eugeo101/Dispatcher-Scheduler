@@ -1,12 +1,15 @@
-package Assignment;
+
+package osass;
+
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
-public class Priority extends Process{
+public class Priority extends Process implements Comparable<Priority>{
     private float remainingTime;
     
     static List<Priority> SortByPriority(List<Priority> processes){
@@ -14,14 +17,15 @@ public class Priority extends Process{
         Collections.sort(processes, priorityComparator);
         return processes;
     }
-    
-    static Vector<TimeStamp> priority(Process processes[], int wt[], boolean preemptive){
+
+    static Vector<TimeStamp> priority(Process processes[], boolean preemptive){
         Vector<TimeStamp> timeline= new Vector<TimeStamp>();
         int s = processes.length;
         float time = 0.0f;
         int ready = 0;
         Priority processArray[] = new Priority[s];
         for(int i = 0;i < s; i++) processArray[i] = new Priority(processes[i].getProcessNumber(),processes[i].getArrivalTime(),processes[i].getBurstTime(), processes[i].getPriority());
+        Arrays.sort(processArray);
         List<Priority> p = new ArrayList<>();
         Priority current, next;
         while(true){
@@ -66,13 +70,20 @@ public class Priority extends Process{
                 timeline.add(new TimeStamp(time, processArray[ready].getArrivalTime(), "IDLE"));
                 time += processArray[ready].getArrivalTime() - time;
             }
-            if(ready == s && p.isEmpty()) break;
+            if(ready == s && p.isEmpty()) {
+                for(int i = 0; i < processes.length; i++){
+                    processes[i].setWaitingTime(processArray[i].getWaitingTime());                    
+                    processes[i].setTurnArroundTime(processArray[i].getTurnArroundTime());
+
+                }
+                break;
+            };
         }
         return timeline;
     }
     
-    static void priority(Process Processes[], int wt[]){
-        priority(Processes, wt, false);
+    static void priority(Process Processes[]){
+        priority(Processes, false);
     }
 
     public Priority(String processNumber, float arrivalTime, float burst, float priority) {
@@ -80,35 +91,19 @@ public class Priority extends Process{
         this.remainingTime = burst;
     }
     
-     public static void main(String args[]){
-//        RRProcess [] my_process = new RRProcess[5]; // ()
-//        my_process[0] = new RRProcess("P5", 3, 2, 0);
-//        my_process[1] = new RRProcess("P1", 0, 2, 0);
-//        my_process[2] = new RRProcess("P3", 2, 1, 0);
-//        my_process[3] = new RRProcess("P4", 2, 3, 0);
-//        my_process[4] = new RRProcess("P2", 0, 4, 0);
-        Vector<Process> my_process = new Vector<Process>(); //1 vector
-        
-//        my_process.add(new Process("P5", 3, 2, 0));
-//        my_process.add(new Process("P1", 1, 2, 0));
-//        my_process.add(new Process("P3", 2, 1, 0));
-//        my_process.add(new Process("P4", 2, 3, 0));
-//        my_process.add(new Process("P2", 1, 4, 0));
-        my_process.add(new Process("P1", 1, 4, 0));
-        my_process.add(new Process("P1_2", 3, 4, 0));
-        my_process.add(new Process("P2", 10, 4, 0));
-        
-        
-        Priority my_proc[] = vecToArr(my_process); // 2 to array
-        Vector<TimeStamp> vector1 = priority(my_proc, 2.0F); //3rd RR quantium = input float
-        printArray(vector1);
-        System.out.println("avg Waiting Time:\t" + avgWaitingTime(my_proc));
-        System.out.println("avg Turn Around Time:\t" + avgTurnAroundTime(my_proc));
-        
-//        //FCFS
-//        Vector<TimeStamp> vector2 = RRSchedule(my_proc, maximum(my_proc)); //3rd FCFC quantum = maximum(my_proc)
-//        printArray(vector2);
-//        System.out.println("avg Waiting Time:\t" + avgWaitingTime(my_proc)); //4th avg waiting  vs avg turnaround
-//        System.out.println("avg Turn Around Time:\t" + avgTurnAroundTime(my_proc));
+    static Priority[] vecToArr(Vector<Process> v){
+        Priority arr[] = new Priority[v.size()];
+        for (int i = 0; i < v.size(); i++) {
+            arr[i] = new Priority(v.get(i).getProcessNumber(), v.get(i).getArrivalTime(), v.get(i).getBurstTime(), v.get(i).getPriority());
+        }
+        return arr;
     }
+
+    @Override
+    public int compareTo(Priority p) {
+        return (int)(this.getArrivalTime() - p.getArrivalTime());
+    }
+    
+     
 }
+

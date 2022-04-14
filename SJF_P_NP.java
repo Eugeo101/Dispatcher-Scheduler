@@ -17,11 +17,11 @@ public class SJF {
         int leastIndex = 0;
         float finish_time;
         boolean flag = false;
-        int prevLeastIndex;
+        /*        int prevLeastIndex;*/
         float wt_time, ta_time;
         
         while (complete != s) {
-            prevLeastIndex = leastIndex;
+        //    prevLeastIndex = leastIndex;
             for (int j = 0; j < s; j++){
                 if ((myProcess[j].getArrivalTime() <= t) &&
                   (burTime[j] < minbt) && burTime[j] > 0) {
@@ -38,9 +38,9 @@ public class SJF {
                 result_arr.add(new TimeStamp(0,t,"IDLE"));
                 continue;
             }
-            if (leastIndex != prevLeastIndex){
-                result_arr.add(new TimeStamp(0,t,myProcess[prevLeastIndex].getProcessNumber()));
-            }
+//            if (leastIndex != prevLeastIndex){
+//                result_arr.add(new TimeStamp(0,t,myProcess[prevLeastIndex].getProcessNumber()));
+//            }
             burTime[leastIndex]--;
             minbt = burTime[leastIndex];
             if (minbt == 0)
@@ -58,16 +58,15 @@ public class SJF {
             }
             t++;
         }
-//        for(int i = 0; i < s; i++){
-//            if(result_arr.get(i).getP()==result_arr.get(i+1).getP()){
-//                result_arr.remove(result_arr.get(i));
-//            }
-//        }
+        for(int i = 0; i < s; i++){
+            if(result_arr.get(i).getP()==result_arr.get(i+1).getP()){
+                result_arr.remove(result_arr.get(i));
+            }
+        }
         return result_arr;
     }
     
-    
-   static Vector<TimeStamp> sjf_np(Process myProcess[])
+    static Vector<TimeStamp> sjf_np(Process myProcess[])
     {
         Vector<TimeStamp> result_arr = new Vector<TimeStamp>();
         int s = myProcess.length;
@@ -105,9 +104,9 @@ public class SJF {
                 result_arr.add(new TimeStamp(0,t,"IDLE"));
                 continue;
             }
-            if (leastIndex != prevLeastIndex){
-                result_arr.add(new TimeStamp(0,t,myProcess[prevLeastIndex].getProcessNumber()));
-            }
+//            if (leastIndex != prevLeastIndex){
+//                result_arr.add(new TimeStamp(0,t,myProcess[prevLeastIndex].getProcessNumber()));
+//            }
             burTime[leastIndex]--;
             minbt = burTime[leastIndex];
             if (minbt == 0)
@@ -132,4 +131,3 @@ public class SJF {
 //        }
         return result_arr;
     }
-}

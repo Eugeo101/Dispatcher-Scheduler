@@ -17,7 +17,9 @@ public class Priority extends Process implements Comparable<Priority>{
         Collections.sort(processes, priorityComparator);
         return processes;
     }
-
+    public void setRemainingTime(float remainingTime) {
+        this.remainingTime = remainingTime;
+    }
     static Vector<TimeStamp> priority(Process processes[], boolean preemptive){
         Vector<TimeStamp> timeline= new Vector<TimeStamp>();
         int s = processes.length;
@@ -47,8 +49,7 @@ public class Priority extends Process implements Comparable<Priority>{
                     next = ready < s ? processArray[ready] : current; //Get next process that didn't arrive
                     if(next.getArrivalTime() < (current.remainingTime + time) && next.getPriority() < current.getPriority()){
                         float timeLeft = current.remainingTime + time - next.getArrivalTime();
-                        Priority backToQueue = new Priority(current.getProcessNumber(), current.getArrivalTime(), timeLeft, current.getPriority());
-                        p.add(backToQueue); // Re-add process to queue
+                        current.setRemainingTime(timeLeft);
                         timeline.add(new TimeStamp(time, next.getArrivalTime(), current.getProcessNumber()));
                         time  = next.getArrivalTime();
                     }else{ //Process will finish without interupts      
@@ -57,8 +58,9 @@ public class Priority extends Process implements Comparable<Priority>{
                         current.setEndTime(time);
                         current.setWaitingTime(current.getEndTime() - current.getArrivalTime() - current.getBurstTime());
                         current.setTurnArroundTime(time - current.getArrivalTime());
+                        p.remove(0);
                     }
-                    p.remove(0);
+                    
                 }else{ //Non-preemtive
                     timeline.add(new TimeStamp(time, time + current.remainingTime, current.getProcessNumber()));
                     current.setWaitingTime(time - current.getArrivalTime());
@@ -74,7 +76,6 @@ public class Priority extends Process implements Comparable<Priority>{
                 for(int i = 0; i < processes.length; i++){
                     processes[i].setWaitingTime(processArray[i].getWaitingTime());                    
                     processes[i].setTurnArroundTime(processArray[i].getTurnArroundTime());
-
                 }
                 break;
             };
@@ -103,7 +104,5 @@ public class Priority extends Process implements Comparable<Priority>{
     public int compareTo(Priority p) {
         return (int)(this.getArrivalTime() - p.getArrivalTime());
     }
-    
-     
 }
 

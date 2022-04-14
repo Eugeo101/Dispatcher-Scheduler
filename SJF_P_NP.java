@@ -67,11 +67,12 @@ public class SJF {
     }
     
     
-    static Vector<TimeStamp> sjf_np(Process myProcess[])
+   static Vector<TimeStamp> sjf_np(Process myProcess[])
     {
         Vector<TimeStamp> result_arr = new Vector<TimeStamp>();
         int s = myProcess.length;
         float burTime[] = new float[s];
+      
         for (int i = 0; i < s; i++)
             burTime[i] = myProcess[i].getBurstTime();
       
@@ -83,20 +84,22 @@ public class SJF {
         boolean flag = false;
         int prevLeastIndex;
         float wt_time, ta_time;
-      
+        
         while (complete != s) {
             prevLeastIndex = leastIndex;
             if(minbt == Integer.MAX_VALUE){
-                for (int j = 0; j < s; j++){
-                    if ((myProcess[j].getArrivalTime() <= t) &&
-                      (burTime[j] < minbt) && burTime[j] > 0) {
-                        minbt = burTime[j];
-                        leastIndex = j;
-                        flag = true;
-                    }
+            for (int j = 0; j < s; j++){
+                if ((myProcess[j].getArrivalTime() <= t) &&
+                  (burTime[j] < minbt) && burTime[j] > 0) {
+                    minbt = burTime[j];
+                    leastIndex = j;
+//                    if(flag == true){
+//                        result_arr.add(new TimeStamp(0,t,myProcess[prevLeastIndex].getProcessNumber()));}                  
+                    flag = true;
                 }
             }
-      
+            }
+            
             if (flag == false) {
                 t++;
                 result_arr.add(new TimeStamp(0,t,"IDLE"));
@@ -107,18 +110,14 @@ public class SJF {
             }
             burTime[leastIndex]--;
             minbt = burTime[leastIndex];
-            
             if (minbt == 0)
                 minbt = Integer.MAX_VALUE;
-      
+            
             if (burTime[leastIndex] == 0) {
                 complete++;
                 flag = false;
-      
                 finish_time = t + 1;
-                if (complete == s){
-                    result_arr.add(new TimeStamp(0,finish_time,myProcess[leastIndex].getProcessNumber()));
-                }
+                result_arr.add(new TimeStamp(0,finish_time,myProcess[leastIndex].getProcessNumber()));
                 wt_time = finish_time - myProcess[leastIndex].getBurstTime() - myProcess[leastIndex].getArrivalTime();
                 myProcess[leastIndex].setWaitingTime(wt_time);
                 ta_time = finish_time - myProcess[leastIndex].getArrivalTime();
@@ -126,11 +125,11 @@ public class SJF {
             }
             t++;
         }
-        for(int i = 0; i < s; i++){
-            if(result_arr.get(i).getP().equals(result_arr.get(i+1).getP())){
-                result_arr.remove(i);
-            }
-        }
+//        for(int i = 0; i < s; i++){
+//            if(result_arr.get(i).getP()==result_arr.get(i+1).getP()){
+//                result_arr.remove(result_arr.get(i));
+//            }
+//        }
         return result_arr;
     }
 }

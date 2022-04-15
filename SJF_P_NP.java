@@ -167,3 +167,4 @@ public class SJF extends Process implements Comparable<SJF>{
         }
         return result_arr;
     }
+}

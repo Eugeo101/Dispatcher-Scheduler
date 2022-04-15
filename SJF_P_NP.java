@@ -1,9 +1,30 @@
 package schedulers;
 import java.util.*;
 
-public class SJF {
+public class SJF extends Process implements Comparable<SJF>{
+    
+    public SJF(String num, float arrival, float burst, float my_priiorty) {
+        super(num, arrival, burst, my_priiorty);
+    }
+
+    @Override
+    public int compareTo(SJF o) {
+        if (getArrivalTime() > o.getArrivalTime())
+            return 1;
+        else if (getArrivalTime() < o.getArrivalTime())
+            return -1;
+        else if (getArrivalTime() == o.getArrivalTime()){
+            if(getBurstTime() > o.getBurstTime()){
+                return 1;
+            }
+            else {return -1;}
+        }
+        return 0;
+    }
+    
     static Vector<TimeStamp> sjf_p(Process myProcess[])
     {
+        Arrays.sort(myProcess);
         Vector<TimeStamp> result_arr = new Vector<TimeStamp>();
         int s = myProcess.length;
         float burTime[] = new float[s];
@@ -17,11 +38,11 @@ public class SJF {
         int leastIndex = 0;
         float finish_time;
         boolean flag = false;
-        /*        int prevLeastIndex;*/
+        int prevLeastIndex;
         float wt_time, ta_time;
         
         while (complete != s) {
-        //    prevLeastIndex = leastIndex;
+            prevLeastIndex = leastIndex;
             for (int j = 0; j < s; j++){
                 if ((myProcess[j].getArrivalTime() <= t) &&
                   (burTime[j] < minbt) && burTime[j] > 0) {
@@ -38,9 +59,9 @@ public class SJF {
                 result_arr.add(new TimeStamp(0,t,"IDLE"));
                 continue;
             }
-//            if (leastIndex != prevLeastIndex){
-//                result_arr.add(new TimeStamp(0,t,myProcess[prevLeastIndex].getProcessNumber()));
-//            }
+            if (leastIndex != prevLeastIndex){
+                result_arr.add(new TimeStamp(0,t,myProcess[prevLeastIndex].getProcessNumber()));
+            }
             burTime[leastIndex]--;
             minbt = burTime[leastIndex];
             if (minbt == 0)
@@ -58,9 +79,19 @@ public class SJF {
             }
             t++;
         }
-        for(int i = 0; i < s; i++){
-            if(result_arr.get(i).getP()==result_arr.get(i+1).getP()){
-                result_arr.remove(result_arr.get(i));
+        for(int i = 0; i < result_arr.size() - 1; i++){
+            if(result_arr.get(i).getP() == result_arr.get(i+1).getP()){
+                result_arr.remove(i); //  2 3 
+                i--;
+            }
+        }
+        for (int i = 1; i < result_arr.size(); i++) {
+            result_arr.get(i).setStartTime(result_arr.get(i - 1).getEndTime());
+        }
+        for (int i = 0; i < result_arr.size() - 1; i++) {
+            if (result_arr.get(i).getStartTime() == result_arr.get(i).getEndTime()){
+                result_arr.remove(i);
+                i--;
             }
         }
         return result_arr;
@@ -81,11 +112,9 @@ public class SJF {
         int leastIndex = 0;
         float finish_time;
         boolean flag = false;
-        int prevLeastIndex;
         float wt_time, ta_time;
         
         while (complete != s) {
-            prevLeastIndex = leastIndex;
             if(minbt == Integer.MAX_VALUE){
             for (int j = 0; j < s; j++){
                 if ((myProcess[j].getArrivalTime() <= t) &&
@@ -104,9 +133,6 @@ public class SJF {
                 result_arr.add(new TimeStamp(0,t,"IDLE"));
                 continue;
             }
-//            if (leastIndex != prevLeastIndex){
-//                result_arr.add(new TimeStamp(0,t,myProcess[prevLeastIndex].getProcessNumber()));
-//            }
             burTime[leastIndex]--;
             minbt = burTime[leastIndex];
             if (minbt == 0)
@@ -124,10 +150,20 @@ public class SJF {
             }
             t++;
         }
-//        for(int i = 0; i < s; i++){
-//            if(result_arr.get(i).getP()==result_arr.get(i+1).getP()){
-//                result_arr.remove(result_arr.get(i));
-//            }
-//        }
+        for(int i = 0; i < result_arr.size() - 1; i++){
+            if(result_arr.get(i).getP() == result_arr.get(i+1).getP()){
+                result_arr.remove(i);
+                i--;
+            }
+        }
+        for (int i = 1; i < result_arr.size(); i++) {
+            result_arr.get(i).setStartTime(result_arr.get(i - 1).getEndTime());
+        }
+        for (int i = 0; i < result_arr.size() - 1; i++) {
+            if (result_arr.get(i).getStartTime() == result_arr.get(i).getEndTime()){
+                result_arr.remove(i);
+                i--;
+            }
+        }
         return result_arr;
     }

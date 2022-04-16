@@ -53,7 +53,7 @@ public class InsertProcess {
         processCount++;
     }
 
-    public InsertProcess() {
+    public InsertProcess(double width, double height) {
         processName = "P" + String.valueOf(processCount);
         arrivalTime = "0";
         priority  = "0";
@@ -66,6 +66,20 @@ public class InsertProcess {
         prty = new TextField(priority);
         addBtn = new Button("+");
         q = new TextField(quantum);
+        removeBtn.setScaleX(width * 0.001);
+        removeBtn.setScaleY(height * 0.002);
+        pName.setScaleX(width * 0.001);
+        pName.setScaleY(height * 0.002);
+        aTime.setScaleX(width * 0.001);
+        aTime.setScaleY(height * 0.002);
+        bTime.setScaleX(width * 0.001);
+        bTime.setScaleY(height * 0.002);
+        prty.setScaleX(width * 0.001);
+        prty.setScaleY(height * 0.002);
+        addBtn.setScaleX(width * 0.001);
+        addBtn.setScaleY(height * 0.002);
+        q.setScaleX(width * 0.01);
+        q.setScaleY(height * 0.02);
         processCount++;
     }
     public void updateProcess() {

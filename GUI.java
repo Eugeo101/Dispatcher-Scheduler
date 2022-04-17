@@ -359,6 +359,7 @@ public class GUI extends Application {
             process.get(0).bTime.setText("1");
             process.get(0).prty.setText("0");
             qField.setText("1");
+            qField.setVisible(false);
             priorityLabel.setVisible(false);
             process.get(0).prty.setVisible(false);
             quantum.setVisible(false);
@@ -382,6 +383,7 @@ public class GUI extends Application {
             process.get(0).bTime.setText("1");
             process.get(0).prty.setText("0");
             qField.setText("1");
+            qField.setVisible(false);
             priorityLabel.setVisible(false);
             process.get(0).prty.setVisible(false);
             quantum.setVisible(false);

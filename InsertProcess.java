@@ -28,31 +28,6 @@ public class InsertProcess {
     public static TextField q;
     public Button addBtn;
 
-    public InsertProcess(String processName, String arrivalTime, String burstTime, String priority) {
-        this.processName = processName;
-        this.arrivalTime = arrivalTime;
-        this.burstTime = burstTime;
-        this.priority = priority;
-        removeBtn = new Button("-");
-        pName = new TextField(processName);
-        aTime = new TextField(arrivalTime);
-        bTime = new TextField(burstTime);
-        prty = new TextField(priority);
-        addBtn = new Button("+");
-        processCount++;
-    }
-    public InsertProcess(String processName, String arrivalTime, String burstTime) {
-        this.processName = processName;
-        this.arrivalTime = arrivalTime;
-        this.burstTime = burstTime;
-        removeBtn = new Button("-");
-        pName = new TextField(processName);
-        aTime = new TextField(arrivalTime);
-        bTime = new TextField(burstTime);
-        addBtn = new Button("+");
-        processCount++;
-    }
-
     public InsertProcess(double width, double height) {
         processName = "P" + String.valueOf(processCount);
         arrivalTime = "0";

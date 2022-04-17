@@ -41,8 +41,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class GUI extends Application {
     private final double width = Screen.getPrimary().getBounds().getMaxX();
@@ -241,6 +244,34 @@ public class GUI extends Application {
         exitBtn.setTranslateY(height * 0.8);
         root4.getChildren().add(exitBtn);
         
+        Label errorLabel = new Label("Please enter a valid Input!");
+        errorLabel.setTranslateX(width * 0.05);
+        errorLabel.setTranslateY(height * 0.05);
+        Button ok2Btn = new Button("OK");
+        ok2Btn.setTranslateX(width * 0.075);
+        ok2Btn.setTranslateY(height * 0.1);
+        ok2Btn.setStyle("-fx-background-color: #3c7fb1,linear-gradient(#fafdfe, #e8f5fc),linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);-fx-background-insets: 0,1,2;-fx-background-radius: 3,2,1;-fx-padding: 3 30 3 30;-fx-text-fill: black;-fx-font-size: 10px;");
+
+        Pane secondaryLayout = new Pane();
+        secondaryLayout.getChildren().addAll(errorLabel, ok2Btn);
+
+        Scene secondScene = new Scene(secondaryLayout, width * 0.2, height * 0.2);
+
+        // New window (Stage)
+        Stage errorWindow = new Stage();
+        errorWindow.setTitle("Error");
+        errorWindow.setScene(secondScene);
+        errorWindow.setResizable(false);
+
+        // Set position of second window, related to primary window.
+        errorWindow.setX(width * 0.4);
+        errorWindow.setY(height * 0.4);
+        
+        ok2Btn.setOnAction(e ->{
+            okBtn.setDisable(false);
+            backBtn2.setDisable(false);
+           errorWindow.close();
+        });
         //Event Handlers
         backBtn1.setOnAction(e -> {
             primaryStage.setScene(welcomeScene);
@@ -354,72 +385,101 @@ public class GUI extends Application {
         });
         exitBtn.setOnAction(e -> Platform.exit());
         okBtn.setOnAction(e -> {
-            for(int i = 0; i < InsertProcess.processCount; i++){
-                process.get(i).updateProcess();
-                inputProcesses.add(new Process(process.get(i).processName, Float.valueOf(process.get(i).arrivalTime).floatValue(), Float.valueOf(process.get(i).burstTime).floatValue(), Float.valueOf(process.get(i).priority).floatValue()));
-            }
-            RRProcess my_proc[];
-            if(null == algorithm) System.out.println("Error");
-            else switch (algorithm) {
-                case "FCFS":
-                    my_proc = RRProcess.vecToArr(inputProcesses);
-                    timeStamp = RRProcess.RRSchedule(my_proc, Process.maximum(my_proc));
-                    break;
-                case "Preemptive SJF":
-                    timeStamp = SJF.sjf_p(Priority.vecToArr(inputProcesses));
-                    break;
-                case "Non-Preemptive SJF":
-                    timeStamp = SJF.sjf_np(Priority.vecToArr(inputProcesses));
-                    break;
-                case "Preemptive Priority":
-                    timeStamp = Priority.priority(Priority.vecToArr(inputProcesses), true);
-                    break;
-                case "Non-Preemptive Priority":
-                    timeStamp = Priority.priority(Priority.vecToArr(inputProcesses), false);
-                    break;
-                case "Round Robin":
-                    my_proc = RRProcess.vecToArr(inputProcesses);
-                    timeStamp = RRProcess.RRSchedule(my_proc, Float.valueOf(process.get(0).quantum).floatValue());
-                    break;
-                default:
-                    System.out.println("Error");
-                    break;
-            }
-            primaryStage.setScene(ganttChartScene);
-            System.out.println(timeStamp.get(timeStamp.size() - 1));
-            Rectangle rect;
-            Label zeroTimeLabel = new Label("0");
-            zeroTimeLabel.setScaleX(width * 0.001);
-            zeroTimeLabel.setScaleY(height * 0.002);
-            zeroTimeLabel.setTranslateX(width * 0.1);
-            zeroTimeLabel.setTranslateY(height * 0.52);
-            zeroTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
-            group.getChildren().add(zeroTimeLabel);
-            float timeWidth = timeStamp.get(timeStamp.size() - 1).getEndTime();
-            for(int i = 0; i < timeStamp.size(); i++){
-                rect = new Rectangle(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth), height*0.4, width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth, height*0.1);
-                rect.setArcWidth(20);
-                rect.setArcHeight(20);                
-                rect.setFill(Color.DARKCYAN);
-                rect.setStrokeWidth(8.0);
-                rect.setStroke(Color.DARKSLATEGREY); 
-                Text text = new Text(timeStamp.get(i).getProcessName());
-                text.setFill(Color.BLACK);
-                text.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR,25));
-                text.toFront();
-                text.setX(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth + width * 0.4 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth));
-                text.setY(height*0.45);
-                labelIndex++;
-                endTimeLabel.add(new Label(Float.toString(timeStamp.get(i).getEndTime())));
-                endTimeLabel.get(labelIndex).setScaleX(width * 0.001);
-                endTimeLabel.get(labelIndex).setScaleY(height * 0.002);
-                endTimeLabel.get(labelIndex).setTranslateX(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth) + width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth);
-                endTimeLabel.get(labelIndex).setTranslateY(height * 0.52);
-                endTimeLabel.get(labelIndex).setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+            boolean error = false;
             
-                group.getChildren().addAll(rect, text, endTimeLabel.get(labelIndex));
+            try {
+                for(int i = 0; i < InsertProcess.processCount; i++){
+                    process.get(i).updateProcess();
+                    if(Float.valueOf(process.get(i).arrivalTime).floatValue() < 0 || Float.valueOf(process.get(i).burstTime).floatValue() <= 0 || Float.valueOf(process.get(i).priority).floatValue() < 0 || Float.valueOf(process.get(0).quantum).floatValue() <= 0) {
+                        error = true;
+                        break;
+                    }
+                    else error = false;
+                }
+                if(!error) {
+                    for(int i = 0; i < InsertProcess.processCount; i++){
+                    
+                    process.get(i).updateProcess();
+                    inputProcesses.add(new Process(process.get(i).processName, Float.valueOf(process.get(i).arrivalTime).floatValue(), Float.valueOf(process.get(i).burstTime).floatValue(), Float.valueOf(process.get(i).priority).floatValue()));
+                    }
+                    RRProcess my_proc[];
+                    if(null == algorithm) System.out.println("Error");
+                    else switch (algorithm) {
+                        case "FCFS":
+                            my_proc = RRProcess.vecToArr(inputProcesses);
+                            timeStamp = RRProcess.RRSchedule(my_proc, Process.maximum(my_proc));
+                            break;
+                        case "Preemptive SJF":
+                            timeStamp = SJF.sjf_p(Priority.vecToArr(inputProcesses));
+                            break;
+                        case "Non-Preemptive SJF":
+                            timeStamp = SJF.sjf_np(Priority.vecToArr(inputProcesses));
+                            break;
+                        case "Preemptive Priority":
+                            timeStamp = Priority.priority(Priority.vecToArr(inputProcesses), true);
+                            break;
+                        case "Non-Preemptive Priority":
+                            timeStamp = Priority.priority(Priority.vecToArr(inputProcesses), false);
+                            break;
+                        case "Round Robin":
+                            my_proc = RRProcess.vecToArr(inputProcesses);
+                            timeStamp = RRProcess.RRSchedule(my_proc, Float.valueOf(process.get(0).quantum).floatValue());
+                            break;
+                        default:
+                            System.out.println("Error");
+                            break;
+                    }
+                    primaryStage.setScene(ganttChartScene);
+                    System.out.println(timeStamp.get(timeStamp.size() - 1));
+                    Rectangle rect;
+                    Label zeroTimeLabel = new Label("0");
+                    zeroTimeLabel.setScaleX(width * 0.001);
+                    zeroTimeLabel.setScaleY(height * 0.002);
+                    zeroTimeLabel.setTranslateX(width * 0.1);
+                    zeroTimeLabel.setTranslateY(height * 0.52);
+                    zeroTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+                    group.getChildren().add(zeroTimeLabel);
+                    float timeWidth = timeStamp.get(timeStamp.size() - 1).getEndTime();
+                    for(int i = 0; i < timeStamp.size(); i++){
+                        rect = new Rectangle(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth), height*0.4, width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth, height*0.1);
+                        rect.setArcWidth(20);
+                        rect.setArcHeight(20);                
+                        rect.setFill(Color.DARKCYAN);
+                        rect.setStrokeWidth(8.0);
+                        rect.setStroke(Color.DARKSLATEGREY); 
+                        Text text = new Text(timeStamp.get(i).getProcessName());
+                        text.setFill(Color.BLACK);
+                        text.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR,25));
+                        text.toFront();
+                        text.setX(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth + width * 0.4 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth));
+                        text.setY(height*0.45);
+                        labelIndex++;
+                        endTimeLabel.add(new Label(Float.toString(timeStamp.get(i).getEndTime())));
+                        endTimeLabel.get(labelIndex).setScaleX(width * 0.001);
+                        endTimeLabel.get(labelIndex).setScaleY(height * 0.002);
+                        endTimeLabel.get(labelIndex).setTranslateX(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth) + width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth);
+                        endTimeLabel.get(labelIndex).setTranslateY(height * 0.52);
+                        endTimeLabel.get(labelIndex).setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+
+                        group.getChildren().addAll(rect, text, endTimeLabel.get(labelIndex));
+                    }
+                }
+                else {
+                    okBtn.setDisable(true);
+                    backBtn2.setDisable(true);
+                    errorWindow.show();
+                }
             }
+            catch(NumberFormatException ex)
+            {
+                okBtn.setDisable(true);
+                backBtn2.setDisable(true);
+                errorWindow.show();
+                throw(ex);
+            }
+           
         });
+        
 
         //Assign controls
         root1.getChildren().addAll(description, startBtn, exitBtn1);

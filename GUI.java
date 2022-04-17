@@ -202,6 +202,12 @@ public class GUI extends Application {
         quantumLabel.setVisible(false);
         root3.add(quantum, 5, 1);
         quantum.setVisible(false);
+        String qText = "1";
+        TextField qField = new TextField(qText);
+        qField.setScaleX(width * 0.001);
+        qField.setScaleY(height * 0.002);
+        root3.add(qField, 5, 1);
+        qField.setVisible(false);
         
         Label processesLabel = new Label("Enter Processes:");
         processesLabel.setScaleX(width * 0.0015);
@@ -326,8 +332,9 @@ public class GUI extends Application {
         roundRobinBtn.setOnAction(e -> {
             algorithm = "Round Robin";
             if(!backFlag) root3.add(process.get(0).addBtn, 1, 1);
+            qField.setVisible(true);
             quantumLabel.setVisible(true);
-            quantum.setVisible(true);
+//            quantum.setVisible(true);
             primaryStage.setScene(inputScene);
             primaryStage.setHeight(height);
             primaryStage.setWidth(width);
@@ -351,7 +358,7 @@ public class GUI extends Application {
             process.get(0).aTime.setText("0");
             process.get(0).bTime.setText("1");
             process.get(0).prty.setText("0");
-            process.get(0).q.setText("1");
+            qField.setText("1");
             priorityLabel.setVisible(false);
             process.get(0).prty.setVisible(false);
             quantum.setVisible(false);
@@ -374,7 +381,7 @@ public class GUI extends Application {
             process.get(0).aTime.setText("0");
             process.get(0).bTime.setText("1");
             process.get(0).prty.setText("0");
-            process.get(0).q.setText("1");
+            qField.setText("1");
             priorityLabel.setVisible(false);
             process.get(0).prty.setVisible(false);
             quantum.setVisible(false);
@@ -390,7 +397,7 @@ public class GUI extends Application {
             try {
                 for(int i = 0; i < InsertProcess.processCount; i++){
                     process.get(i).updateProcess();
-                    if(Float.valueOf(process.get(i).arrivalTime).floatValue() < 0 || Float.valueOf(process.get(i).burstTime).floatValue() <= 0 || Float.valueOf(process.get(i).priority).floatValue() < 0 || Float.valueOf(process.get(0).quantum).floatValue() <= 0) {
+                    if(Float.valueOf(process.get(i).arrivalTime).floatValue() < 0 || Float.valueOf(process.get(i).burstTime).floatValue() <= 0 || Float.valueOf(process.get(i).priority).floatValue() < 0 || Float.valueOf(process.get(i).quantum).floatValue() <= 0) {
                         error = true;
                         break;
                     }
@@ -423,7 +430,7 @@ public class GUI extends Application {
                             break;
                         case "Round Robin":
                             my_proc = RRProcess.vecToArr(inputProcesses);
-                            timeStamp = RRProcess.RRSchedule(my_proc, Float.valueOf(process.get(0).quantum).floatValue());
+                            timeStamp = RRProcess.RRSchedule(my_proc, Float.valueOf(qField.getText()).floatValue());
                             break;
                         default:
                             System.out.println("Error");
@@ -437,21 +444,21 @@ public class GUI extends Application {
                     zeroTimeLabel.setScaleY(height * 0.002);
                     zeroTimeLabel.setTranslateX(width * 0.1);
                     zeroTimeLabel.setTranslateY(height * 0.52);
-                    zeroTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+                    zeroTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 15));
                     group.getChildren().add(zeroTimeLabel);
                     float timeWidth = timeStamp.get(timeStamp.size() - 1).getEndTime();
                     for(int i = 0; i < timeStamp.size(); i++){
                         rect = new Rectangle(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth), height*0.4, width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth, height*0.1);
-                        rect.setArcWidth(20);
-                        rect.setArcHeight(20);                
-                        rect.setFill(Color.DARKCYAN);
-                        rect.setStrokeWidth(8.0);
+//                        rect.setArcWidth(20);
+//                        rect.setArcHeight(20);                
+                        rect.setFill(Color.CYAN);
+                        rect.setStrokeWidth(3.0);
                         rect.setStroke(Color.DARKSLATEGREY); 
                         Text text = new Text(timeStamp.get(i).getProcessName());
                         text.setFill(Color.BLACK);
                         text.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR,25));
                         text.toFront();
-                        text.setX(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth + width * 0.4 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth));
+                        text.setX(width * 0.09 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth + width * 0.4 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth));
                         text.setY(height*0.45);
                         labelIndex++;
                         endTimeLabel.add(new Label(Float.toString(timeStamp.get(i).getEndTime())));
@@ -459,7 +466,7 @@ public class GUI extends Application {
                         endTimeLabel.get(labelIndex).setScaleY(height * 0.002);
                         endTimeLabel.get(labelIndex).setTranslateX(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth) + width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth);
                         endTimeLabel.get(labelIndex).setTranslateY(height * 0.52);
-                        endTimeLabel.get(labelIndex).setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+                        endTimeLabel.get(labelIndex).setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 15));
 
                         group.getChildren().addAll(rect, text, endTimeLabel.get(labelIndex));
                     }

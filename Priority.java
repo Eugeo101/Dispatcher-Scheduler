@@ -1,5 +1,5 @@
 
-package osass;
+package schedulers;
 
 
 import java.util.ArrayList;

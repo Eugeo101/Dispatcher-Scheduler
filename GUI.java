@@ -236,6 +236,20 @@ public class GUI extends Application {
         ganttChartLabel.setTranslateY(height * 0.1);
         root4.getChildren().add(ganttChartLabel);
         
+        Label avgWaitingTimeLabel = new Label();
+        avgWaitingTimeLabel.setScaleX(width * 0.001);
+        avgWaitingTimeLabel.setScaleY(height * 0.002);
+        avgWaitingTimeLabel.setTranslateX(width * 0.4);
+        avgWaitingTimeLabel.setTranslateY(height * 0.57);
+        avgWaitingTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+        Label turnAroundTimeLabel = new Label("Average Turnaround Time = " + averageTurnAroundTime);
+        turnAroundTimeLabel.setScaleX(width * 0.001);
+        turnAroundTimeLabel.setScaleY(height * 0.002);
+        turnAroundTimeLabel.setTranslateX(width * 0.4);
+        turnAroundTimeLabel.setTranslateY(height * 0.67);
+        turnAroundTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+        group.getChildren().addAll(avgWaitingTimeLabel, turnAroundTimeLabel);
+        
         Button returnBtn = new Button("Return Home");
         returnBtn.setStyle("-fx-background-color: #3c7fb1,linear-gradient(#fafdfe, #e8f5fc),linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);-fx-background-insets: 0,1,2;-fx-background-radius: 3,2,1;-fx-padding: 3 30 3 30;-fx-text-fill: black;-fx-font-size: 25px;");
         returnBtn.setScaleX(width * 0.001);
@@ -399,6 +413,7 @@ public class GUI extends Application {
             boolean error = false;
             
             try {
+                
                 for(int i = 0; i < InsertProcess.processCount; i++){
                     process.get(i).updateProcess();
                     if(Float.valueOf(process.get(i).arrivalTime).floatValue() < 0 || Float.valueOf(process.get(i).burstTime).floatValue() <= 0 || Float.valueOf(process.get(i).priority).floatValue() < 0 || Float.valueOf(process.get(i).quantum).floatValue() <= 0) {
@@ -490,19 +505,10 @@ public class GUI extends Application {
 
                         group.getChildren().addAll(rect, text, endTimeLabel.get(labelIndex));
                     }
-                    Label avgWaitingTimeLabel = new Label("Average Waiting Time = " + averageWaitingTime);
-                    avgWaitingTimeLabel.setScaleX(width * 0.001);
-                    avgWaitingTimeLabel.setScaleY(height * 0.002);
-                    avgWaitingTimeLabel.setTranslateX(width * 0.4);
-                    avgWaitingTimeLabel.setTranslateY(height * 0.57);
-                    avgWaitingTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
-                    Label turnAroundTimeLabel = new Label("Average Turnaround Time = " + averageTurnAroundTime);
-                    turnAroundTimeLabel.setScaleX(width * 0.001);
-                    turnAroundTimeLabel.setScaleY(height * 0.002);
-                    turnAroundTimeLabel.setTranslateX(width * 0.4);
-                    turnAroundTimeLabel.setTranslateY(height * 0.67);
-                    turnAroundTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
-                    group.getChildren().addAll(avgWaitingTimeLabel, turnAroundTimeLabel);
+                    avgWaitingTimeLabel.setText("Average Waiting Time = " + averageWaitingTime);
+                    turnAroundTimeLabel.setText("Average Turnaround Time = " + averageTurnAroundTime);
+                    avgWaitingTimeLabel.setVisible(true);
+                    turnAroundTimeLabel.setVisible(true);
                 }
                 else {
                     okBtn.setDisable(true);

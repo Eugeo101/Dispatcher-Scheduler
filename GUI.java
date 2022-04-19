@@ -48,8 +48,8 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 public class GUI extends Application {
-    private final double width = Screen.getPrimary().getBounds().getMaxX();
-    private final double height = Screen.getPrimary().getBounds().getMaxY();
+    private static final double width = 1200;
+    private static final double height = 800;
     private String algorithm = "";
     private Vector<TimeStamp> timeStamp = new Vector<>();
     private boolean backFlag = false;
@@ -69,10 +69,10 @@ public class GUI extends Application {
         StackPane root1 = new StackPane();
         Scene welcomeScene = new Scene(root1, width*0.9, height*0.7);
         root1.setBackground(bGround);
-        FlowPane root2 = new FlowPane(width*0.01,height*0.01);
+        FlowPane root2 = new FlowPane(width*0.05,height*0.01);
         Scene processesScene = new Scene(root2, width*0.9, height*0.7);
         
-        root2.setPadding(new Insets(height*0.2, width*0.15, height*0.1, width*0.15));
+        root2.setPadding(new Insets(height*0.1, width*0.15, height*0.1, width*0.2));
         root2.setBackground(bGround);
         BorderPane border = new BorderPane();
         GridPane root3 = new GridPane();
@@ -85,7 +85,7 @@ public class GUI extends Application {
         root3.setTranslateX(width*0.25);
         root3.setHgap(width * 0.045);
         root3.setVgap(height * 0.03);
-        root3.setTranslateX(width * 0.2);
+        root3.setTranslateX(width * 0.05);
         Scene inputScene = new Scene(border, width*0.9, height*0.7);
         Group group = new Group();
         Pane root4 = new Pane(group);
@@ -113,58 +113,58 @@ public class GUI extends Application {
         exitBtn1.setStyle("-fx-background-color: #3c7fb1,linear-gradient(#fafdfe, #e8f5fc),linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);-fx-background-insets: 0,1,2;-fx-background-radius: 3,2,1;-fx-padding: 3 30 3 30;-fx-text-fill: black;-fx-font-size: 25px;");
         exitBtn1.setScaleX(width * 0.001);
         exitBtn1.setScaleY(height * 0.002);
-        exitBtn1.setTranslateX(width * 0.4);
-        exitBtn1.setTranslateY(height * 0.35);
+        exitBtn1.setTranslateX(width * 0.36);
+        exitBtn1.setTranslateY(height * 0.27);
         
         Button backBtn1 = new Button("←");
         backBtn1.setStyle("-fx-background-color: #3c7fb1,linear-gradient(#fafdfe, #e8f5fc),linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);-fx-background-insets: 0,1,2;-fx-background-radius: 3,2,1;-fx-padding: 3 30 3 30;-fx-text-fill: black;-fx-font-size: 25px;");
         backBtn1.setScaleX(width * 0.001);
         backBtn1.setScaleY(height * 0.002);
-        backBtn1.setTranslateX(width * -0.1);
-        backBtn1.setTranslateY(height * -0.09);
+        backBtn1.setTranslateX(width * -0.15);
+        backBtn1.setTranslateY(height * -0.075);
         
         Label chooseAlgorithmLabel = new Label("Choose Algorithm:");
         chooseAlgorithmLabel.setScaleX(width * 0.003);
         chooseAlgorithmLabel.setScaleY(height * 0.006);
-        chooseAlgorithmLabel.setTranslateX(width * 0.3);
-        chooseAlgorithmLabel.setTranslateY(height * -0.1);
+        chooseAlgorithmLabel.setTranslateX(width * 0.2);
+        chooseAlgorithmLabel.setTranslateY(height * -0.05);
         
         Button FCFSBtn = new Button();
         FCFSBtn.setText("FCFS");
-        FCFSBtn.setMinSize(width*0.7, height*0.1);
+        FCFSBtn.setMinSize(width*0.5, height*0.05);
         FCFSBtn.setStyle("-fx-background-color: rgba(0,0,0,0.08),linear-gradient(#5a61af, #51536d),linear-gradient(#e4fbff 0%,#cee6fb 10%, #a5d3fb 50%, #88c6fb 51%, #d5faff 100%);-fx-background-insets: 0 0 -1 0,0,1;-fx-background-radius: 5,5,4;-fx-padding: 3 30 3 30;-fx-text-fill: #242d35;-fx-font-size: 40px;");
         
         Button preemptiveSJFBtn = new Button();
         preemptiveSJFBtn.setText("Preemptive SJF");
-        preemptiveSJFBtn.setMinSize(width*0.7, height*0.1);
+        preemptiveSJFBtn.setMinSize(width*0.5, height*0.05);
         preemptiveSJFBtn.setStyle("-fx-background-color: rgba(0,0,0,0.08),linear-gradient(#5a61af, #51536d),linear-gradient(#e4fbff 0%,#cee6fb 10%, #237DF3 50%, #2685FF 51%, #3DDEE9 100%);-fx-background-insets: 0 0 -1 0,0,1;-fx-background-radius: 5,5,4;-fx-padding: 3 30 3 30;-fx-text-fill: #242d35;-fx-font-size: 40px;");
         
         Button non_preemptiveSJFBtn = new Button();
         non_preemptiveSJFBtn.setText("Non-Preemptive SJF");
-        non_preemptiveSJFBtn.setMinSize(width*0.7, height*0.1);
+        non_preemptiveSJFBtn.setMinSize(width*0.5, height*0.05);
         non_preemptiveSJFBtn.setStyle("-fx-background-color: rgba(0,0,0,0.08),linear-gradient(#5a61af, #51536d),linear-gradient(#e4fbff 0%,#cee6fb 10%, #237DF3 50%, #2685FF 51%, #3DDEE9 100%);-fx-background-insets: 0 0 -1 0,0,1;-fx-background-radius: 5,5,4;-fx-padding: 3 30 3 30;-fx-text-fill: #242d35;-fx-font-size: 40px;");
 
         Button preemptivePriorityBtn = new Button();
         preemptivePriorityBtn.setText("Preemptive Priority");
-        preemptivePriorityBtn.setMinSize(width*0.7, height*0.1);
+        preemptivePriorityBtn.setMinSize(width*0.5, height*0.05);
         preemptivePriorityBtn.setStyle("-fx-background-color: rgba(0,0,0,0.08),linear-gradient(#5a61af, #51536d),linear-gradient(#e4fbff 0%,#cee6fb 10%, #69BEE9 50%, #1AD9DF 51%, #A4F6FC 100%);-fx-background-insets: 0 0 -1 0,0,1;-fx-background-radius: 5,5,4;-fx-padding: 3 30 3 30;-fx-text-fill: #242d35;-fx-font-size: 40px;");
         
         Button non_preemptivePriorityBtn = new Button();
         non_preemptivePriorityBtn.setText("Non-Preemptive Priority");
-        non_preemptivePriorityBtn.setMinSize(width*0.7, height*0.1);
+        non_preemptivePriorityBtn.setMinSize(width*0.5, height*0.05);
         non_preemptivePriorityBtn.setStyle("-fx-background-color: rgba(0,0,0,0.08),linear-gradient(#5a61af, #51536d),linear-gradient(#e4fbff 0%,#cee6fb 10%, #69BEE9 50%, #1AD9DF 51%, #A4F6FC 100%);-fx-background-insets: 0 0 -1 0,0,1;-fx-background-radius: 5,5,4;-fx-padding: 3 30 3 30;-fx-text-fill: #242d35;-fx-font-size: 40px;");
         
         Button roundRobinBtn = new Button();
         roundRobinBtn.setText("Round Robin");
-        roundRobinBtn.setMinSize(width*0.7, height*0.1);
+        roundRobinBtn.setMinSize(width*0.5, height*0.05);
         roundRobinBtn.setStyle("-fx-background-color: rgba(0,0,0,0.08),linear-gradient(#5a61af, #51536d),linear-gradient(#e4fbff 0%,#cee6fb 10%, #237DF3 50%, #2685FF 51%, #3DDEE9 100%);-fx-background-insets: 0 0 -1 0,0,1;-fx-background-radius: 5,5,4;-fx-padding: 3 30 3 30;-fx-text-fill: #242d35;-fx-font-size: 40px;");
         
         
         Vector<InsertProcess> process = new Vector<>();
         Button okBtn = new Button("Proceed →");
         okBtn.setStyle("-fx-background-color: #3c7fb1,linear-gradient(#fafdfe, #e8f5fc),linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);-fx-background-insets: 0,1,2;-fx-background-radius: 3,2,1;-fx-padding: 3 30 3 30;-fx-text-fill: black;-fx-font-size: 25px;");
-        okBtn.setTranslateX(width * 0.42);
-        okBtn.setTranslateY(height * -0.1);
+        okBtn.setTranslateX(width * 0.4);
+        okBtn.setTranslateY(height * -0.05);
         okBtn.setMinWidth(width * 0.1);
         okBtn.setScaleX(width * 0.001);
         okBtn.setScaleY(height * 0.002);
@@ -214,7 +214,7 @@ public class GUI extends Application {
         Label processesLabel = new Label("Enter Processes:");
         processesLabel.setScaleX(width * 0.0015);
         processesLabel.setScaleY(height * 0.003);
-        processesLabel.setTranslateX(width * 0.1);
+        processesLabel.setTranslateX(width * 0.05);
         processesLabel.setTranslateY(height * 0.02);
         border.setTop(processesLabel);
         
@@ -222,8 +222,8 @@ public class GUI extends Application {
         backBtn2.setStyle("-fx-background-color: #3c7fb1,linear-gradient(#fafdfe, #e8f5fc),linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);-fx-background-insets: 0,1,2;-fx-background-radius: 3,2,1;-fx-padding: 3 30 3 30;-fx-text-fill: black;-fx-font-size: 25px;");
         backBtn2.setScaleX(width * 0.001);
         backBtn2.setScaleY(height * 0.002);
-        backBtn2.setTranslateX(height * 0.1);
-        backBtn2.setTranslateY(height * 0.75);
+        backBtn2.setTranslateX(width * 0.04);
+        backBtn2.setTranslateY(height * 0.57);
         border.setLeft(backBtn2);
         
         process.get(0).removeBtn.setVisible(false);
@@ -232,21 +232,21 @@ public class GUI extends Application {
         Label ganttChartLabel = new Label("Gantt Chart:");
         ganttChartLabel.setScaleX(width * 0.003);
         ganttChartLabel.setScaleY(height * 0.006);
-        ganttChartLabel.setTranslateX(width * 0.5);
-        ganttChartLabel.setTranslateY(height * 0.1);
+        ganttChartLabel.setTranslateX(width * 0.4);
+        ganttChartLabel.setTranslateY(height * 0.05);
         root4.getChildren().add(ganttChartLabel);
         
         Label avgWaitingTimeLabel = new Label();
         avgWaitingTimeLabel.setScaleX(width * 0.001);
         avgWaitingTimeLabel.setScaleY(height * 0.002);
-        avgWaitingTimeLabel.setTranslateX(width * 0.4);
-        avgWaitingTimeLabel.setTranslateY(height * 0.57);
+        avgWaitingTimeLabel.setTranslateX(width * 0.3);
+        avgWaitingTimeLabel.setTranslateY(height * 0.37);
         avgWaitingTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
         Label turnAroundTimeLabel = new Label("Average Turnaround Time = " + averageTurnAroundTime);
         turnAroundTimeLabel.setScaleX(width * 0.001);
         turnAroundTimeLabel.setScaleY(height * 0.002);
-        turnAroundTimeLabel.setTranslateX(width * 0.4);
-        turnAroundTimeLabel.setTranslateY(height * 0.67);
+        turnAroundTimeLabel.setTranslateX(width * 0.3);
+        turnAroundTimeLabel.setTranslateY(height * 0.45);
         turnAroundTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
         group.getChildren().addAll(avgWaitingTimeLabel, turnAroundTimeLabel);
         
@@ -254,16 +254,16 @@ public class GUI extends Application {
         returnBtn.setStyle("-fx-background-color: #3c7fb1,linear-gradient(#fafdfe, #e8f5fc),linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);-fx-background-insets: 0,1,2;-fx-background-radius: 3,2,1;-fx-padding: 3 30 3 30;-fx-text-fill: black;-fx-font-size: 25px;");
         returnBtn.setScaleX(width * 0.001);
         returnBtn.setScaleY(height * 0.002);
-        returnBtn.setTranslateX(width * 0.1);
-        returnBtn.setTranslateY(height * 0.8);
+        returnBtn.setTranslateX(width * 0.05);
+        returnBtn.setTranslateY(height * 0.6);
         root4.getChildren().add(returnBtn);
         
         Button exitBtn = new Button("Exit");
         exitBtn.setStyle("-fx-background-color: #3c7fb1,linear-gradient(#fafdfe, #e8f5fc),linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);-fx-background-insets: 0,1,2;-fx-background-radius: 3,2,1;-fx-padding: 3 30 3 30;-fx-text-fill: black;-fx-font-size: 25px;");
         exitBtn.setScaleX(width * 0.001);
         exitBtn.setScaleY(height * 0.002);
-        exitBtn.setTranslateX(width * 0.85);
-        exitBtn.setTranslateY(height * 0.8);
+        exitBtn.setTranslateX(width * 0.75);
+        exitBtn.setTranslateY(height * 0.6);
         root4.getChildren().add(exitBtn);
         
         Label errorLabel = new Label("Please enter a valid Input!");
@@ -297,35 +297,35 @@ public class GUI extends Application {
         //Event Handlers
         backBtn1.setOnAction(e -> {
             primaryStage.setScene(welcomeScene);
-            primaryStage.setHeight(height);
-            primaryStage.setWidth(width);
+            primaryStage.setMaxHeight(height);
+            primaryStage.setMaxWidth(width);
         });
         startBtn.setOnAction(e -> {
             primaryStage.setScene(processesScene);
-            primaryStage.setHeight(height);
-            primaryStage.setWidth(width);
+            primaryStage.setMaxHeight(height);
+            primaryStage.setMaxWidth(width);
                 });
         exitBtn1.setOnAction(e -> Platform.exit());
         FCFSBtn.setOnAction(e -> {
             algorithm = "FCFS";
             if(!backFlag) root3.add(process.get(0).addBtn, 1, 1);
             primaryStage.setScene(inputScene);
-            primaryStage.setHeight(height);
-            primaryStage.setWidth(width);
+            primaryStage.setMaxHeight(height);
+            primaryStage.setMaxWidth(width);
                 });
         preemptiveSJFBtn.setOnAction(e -> {
             algorithm = "Preemptive SJF";
             if(!backFlag) root3.add(process.get(0).addBtn, 1, 1);
             primaryStage.setScene(inputScene);
-            primaryStage.setHeight(height);
-            primaryStage.setWidth(width);
+            primaryStage.setMaxHeight(height);
+            primaryStage.setMaxWidth(width);
                 });
         non_preemptiveSJFBtn.setOnAction(e -> {
             algorithm = "Non-Preemptive SJF";
             if(!backFlag) root3.add(process.get(0).addBtn, 1, 1);
             primaryStage.setScene(inputScene);
-            primaryStage.setHeight(height);
-            primaryStage.setWidth(width);
+            primaryStage.setMaxHeight(height);
+            primaryStage.setMaxWidth(width);
                 });
         preemptivePriorityBtn.setOnAction(e -> {
             algorithm = "Preemptive Priority";
@@ -333,8 +333,8 @@ public class GUI extends Application {
             process.get(0).prty.setVisible(true);
             priorityLabel.setVisible(true);
             primaryStage.setScene(inputScene);
-            primaryStage.setHeight(height);
-            primaryStage.setWidth(width);
+            primaryStage.setMaxHeight(height);
+            primaryStage.setMaxWidth(width);
                 });
         non_preemptivePriorityBtn.setOnAction(e -> {
             algorithm = "Non-Preemptive Priority";
@@ -342,8 +342,8 @@ public class GUI extends Application {
             process.get(0).prty.setVisible(true);
             priorityLabel.setVisible(true);
             primaryStage.setScene(inputScene);
-            primaryStage.setHeight(height);
-            primaryStage.setWidth(width);
+            primaryStage.setMaxHeight(height);
+            primaryStage.setMaxWidth(width);
                 });
         roundRobinBtn.setOnAction(e -> {
             algorithm = "Round Robin";
@@ -352,8 +352,8 @@ public class GUI extends Application {
             quantumLabel.setVisible(true);
 //            quantum.setVisible(true);
             primaryStage.setScene(inputScene);
-            primaryStage.setHeight(height);
-            primaryStage.setWidth(width);
+            primaryStage.setMaxHeight(height);
+            primaryStage.setMaxWidth(width);
                 });
         (process.get(InsertProcess.processCount - 1).addBtn).setOnAction(e -> {
             addAction(root3, process);
@@ -405,8 +405,8 @@ public class GUI extends Application {
             quantum.setVisible(false);
             quantumLabel.setVisible(false);
             primaryStage.setScene(processesScene);
-            primaryStage.setHeight(height);
-            primaryStage.setWidth(width);
+            primaryStage.setMaxHeight(height);
+            primaryStage.setMaxWidth(width);
         });
         exitBtn.setOnAction(e -> Platform.exit());
         okBtn.setOnAction(e -> {
@@ -476,14 +476,14 @@ public class GUI extends Application {
                     Label zeroTimeLabel = new Label("0");
                     zeroTimeLabel.setScaleX(width * 0.001);
                     zeroTimeLabel.setScaleY(height * 0.002);
-                    zeroTimeLabel.setTranslateX(width * 0.1);
-                    zeroTimeLabel.setTranslateY(height * 0.52);
+                    zeroTimeLabel.setTranslateX(width * 0.04);
+                    zeroTimeLabel.setTranslateY(height * 0.32);
                     zeroTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 15));
                     group.getChildren().add(zeroTimeLabel);
                     
                     float timeWidth = timeStamp.get(timeStamp.size() - 1).getEndTime();
                     for(int i = 0; i < timeStamp.size(); i++){
-                        rect = new Rectangle(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth), height*0.4, width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth, height*0.1);
+                        rect = new Rectangle(width * 0.05 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth), height*0.2, width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth, height*0.1);
 //                        rect.setArcWidth(20);
 //                        rect.setArcHeight(20);                
                         rect.setFill(Color.CYAN);
@@ -493,14 +493,14 @@ public class GUI extends Application {
                         text.setFill(Color.BLACK);
                         text.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR,25));
                         text.toFront();
-                        text.setX(width * 0.09 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth + width * 0.4 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth));
-                        text.setY(height*0.45);
+                        text.setX(width * 0.043 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth + width * 0.4 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth));
+                        text.setY(height*0.25);
                         labelIndex++;
                         endTimeLabel.add(new Label(Float.toString(timeStamp.get(i).getEndTime())));
                         endTimeLabel.get(labelIndex).setScaleX(width * 0.001);
                         endTimeLabel.get(labelIndex).setScaleY(height * 0.002);
-                        endTimeLabel.get(labelIndex).setTranslateX(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth) + width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth);
-                        endTimeLabel.get(labelIndex).setTranslateY(height * 0.52);
+                        endTimeLabel.get(labelIndex).setTranslateX(width * 0.04 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth) + width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth);
+                        endTimeLabel.get(labelIndex).setTranslateY(height * 0.32);
                         endTimeLabel.get(labelIndex).setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 15));
 
                         group.getChildren().addAll(rect, text, endTimeLabel.get(labelIndex));
@@ -534,7 +534,9 @@ public class GUI extends Application {
         
         
         //Starting the application
-        primaryStage.setMaximized(true);
+        
+        primaryStage.setMaximized(false);
+        primaryStage.setResizable(true);
         primaryStage.setTitle("Scheduler");
         primaryStage.setScene(welcomeScene);
         primaryStage.show();
@@ -549,7 +551,7 @@ public class GUI extends Application {
             pane.add(process.get(InsertProcess.processCount - 1).aTime, 3, InsertProcess.processCount);
             pane.add(process.get(InsertProcess.processCount - 1).bTime, 4, InsertProcess.processCount);
             pane.add(process.get(InsertProcess.processCount - 1).addBtn, 1, InsertProcess.processCount);
-            if(InsertProcess.processCount == 10) process.get(InsertProcess.processCount - 1).addBtn.setVisible(false);
+            if(InsertProcess.processCount == 8) process.get(InsertProcess.processCount - 1).addBtn.setVisible(false);
             if(algorithm == "Preemptive Priority" || algorithm == "Non-Preemptive Priority"){
                 pane.add(process.get(InsertProcess.processCount - 1).prty, 5, InsertProcess.processCount);
             }

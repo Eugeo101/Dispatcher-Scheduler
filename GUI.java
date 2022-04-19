@@ -55,6 +55,8 @@ public class GUI extends Application {
     private boolean backFlag = false;
     private Vector<Label> endTimeLabel = new Vector<>();
     private int labelIndex = -1;
+    private float averageWaitingTime = 0;
+    private float averageTurnAroundTime = 0;
     @Override
     public void start(Stage primaryStage) {
         //Defining Variables
@@ -407,9 +409,8 @@ public class GUI extends Application {
                 }
                 if(!error) {
                     for(int i = 0; i < InsertProcess.processCount; i++){
-                    
-                    process.get(i).updateProcess();
-                    inputProcesses.add(new Process(process.get(i).processName, Float.valueOf(process.get(i).arrivalTime).floatValue(), Float.valueOf(process.get(i).burstTime).floatValue(), Float.valueOf(process.get(i).priority).floatValue()));
+                        process.get(i).updateProcess();
+                        inputProcesses.add(new Process(process.get(i).processName, Float.valueOf(process.get(i).arrivalTime).floatValue(), Float.valueOf(process.get(i).burstTime).floatValue(), Float.valueOf(process.get(i).priority).floatValue()));
                     }
                     RRProcess my_proc[];
                     if(null == algorithm) System.out.println("Error");
@@ -417,22 +418,38 @@ public class GUI extends Application {
                         case "FCFS":
                             my_proc = RRProcess.vecToArr(inputProcesses);
                             timeStamp = RRProcess.RRSchedule(my_proc, Process.maximum(my_proc));
+                            averageWaitingTime = Process.avgWaitingTime(my_proc);
+                            averageTurnAroundTime = Process.avgTurnAroundTime(my_proc);
                             break;
                         case "Preemptive SJF":
-                            timeStamp = SJF.sjf_p(Priority.vecToArr(inputProcesses));
+                            my_proc = RRProcess.vecToArr(inputProcesses);
+                            timeStamp = SJF.sjf_p(my_proc);
+                            averageWaitingTime = Process.avgWaitingTime(my_proc);
+                            averageTurnAroundTime = Process.avgTurnAroundTime(my_proc);
                             break;
                         case "Non-Preemptive SJF":
-                            timeStamp = SJF.sjf_np(Priority.vecToArr(inputProcesses));
+                            my_proc = RRProcess.vecToArr(inputProcesses);
+                            timeStamp = SJF.sjf_np(my_proc);
+                            averageWaitingTime = Process.avgWaitingTime(my_proc);
+                            averageTurnAroundTime = Process.avgTurnAroundTime(my_proc);
                             break;
                         case "Preemptive Priority":
-                            timeStamp = Priority.priority(Priority.vecToArr(inputProcesses), true);
+                            my_proc = RRProcess.vecToArr(inputProcesses);
+                            timeStamp = Priority.priority(my_proc, true);
+                            averageWaitingTime = Process.avgWaitingTime(my_proc);
+                            averageTurnAroundTime = Process.avgTurnAroundTime(my_proc);
                             break;
                         case "Non-Preemptive Priority":
-                            timeStamp = Priority.priority(Priority.vecToArr(inputProcesses), false);
+                            my_proc = RRProcess.vecToArr(inputProcesses);
+                            timeStamp = Priority.priority(my_proc, false);
+                            averageWaitingTime = Process.avgWaitingTime(my_proc);
+                            averageTurnAroundTime = Process.avgTurnAroundTime(my_proc);
                             break;
                         case "Round Robin":
                             my_proc = RRProcess.vecToArr(inputProcesses);
                             timeStamp = RRProcess.RRSchedule(my_proc, Float.valueOf(qField.getText()).floatValue());
+                            averageWaitingTime = Process.avgWaitingTime(my_proc);
+                            averageTurnAroundTime = Process.avgTurnAroundTime(my_proc);
                             break;
                         default:
                             System.out.println("Error");
@@ -473,14 +490,13 @@ public class GUI extends Application {
 
                         group.getChildren().addAll(rect, text, endTimeLabel.get(labelIndex));
                     }
-                    Label avgWaitingTimeLabel = new Label("Average Waiting Time = " + Process.avgWaitingTime(Priority.vecToArr(inputProcesses)));
-                    System.out.println(Process.avgWaitingTime(Priority.vecToArr(inputProcesses)));
+                    Label avgWaitingTimeLabel = new Label("Average Waiting Time = " + averageWaitingTime);
                     avgWaitingTimeLabel.setScaleX(width * 0.001);
                     avgWaitingTimeLabel.setScaleY(height * 0.002);
                     avgWaitingTimeLabel.setTranslateX(width * 0.4);
                     avgWaitingTimeLabel.setTranslateY(height * 0.57);
                     avgWaitingTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
-                    Label turnAroundTimeLabel = new Label("Average Turnaround Time = " + Process.avgTurnAroundTime(Priority.vecToArr(inputProcesses)));
+                    Label turnAroundTimeLabel = new Label("Average Turnaround Time = " + averageTurnAroundTime);
                     turnAroundTimeLabel.setScaleX(width * 0.001);
                     turnAroundTimeLabel.setScaleY(height * 0.002);
                     turnAroundTimeLabel.setTranslateX(width * 0.4);

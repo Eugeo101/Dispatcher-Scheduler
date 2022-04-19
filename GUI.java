@@ -448,6 +448,7 @@ public class GUI extends Application {
                     zeroTimeLabel.setTranslateY(height * 0.52);
                     zeroTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 15));
                     group.getChildren().add(zeroTimeLabel);
+                    
                     float timeWidth = timeStamp.get(timeStamp.size() - 1).getEndTime();
                     for(int i = 0; i < timeStamp.size(); i++){
                         rect = new Rectangle(width * 0.1 + (width * 0.8 * timeStamp.get(i).getStartTime() / timeWidth), height*0.4, width * 0.8 * (timeStamp.get(i).getEndTime() - timeStamp.get(i).getStartTime()) / timeWidth, height*0.1);
@@ -472,6 +473,20 @@ public class GUI extends Application {
 
                         group.getChildren().addAll(rect, text, endTimeLabel.get(labelIndex));
                     }
+                    Label avgWaitingTimeLabel = new Label("Average Waiting Time = " + Process.avgWaitingTime(Priority.vecToArr(inputProcesses)));
+                    System.out.println(Process.avgWaitingTime(Priority.vecToArr(inputProcesses)));
+                    avgWaitingTimeLabel.setScaleX(width * 0.001);
+                    avgWaitingTimeLabel.setScaleY(height * 0.002);
+                    avgWaitingTimeLabel.setTranslateX(width * 0.4);
+                    avgWaitingTimeLabel.setTranslateY(height * 0.57);
+                    avgWaitingTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+                    Label turnAroundTimeLabel = new Label("Average Turnaround Time = " + Process.avgTurnAroundTime(Priority.vecToArr(inputProcesses)));
+                    turnAroundTimeLabel.setScaleX(width * 0.001);
+                    turnAroundTimeLabel.setScaleY(height * 0.002);
+                    turnAroundTimeLabel.setTranslateX(width * 0.4);
+                    turnAroundTimeLabel.setTranslateY(height * 0.67);
+                    turnAroundTimeLabel.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 25));
+                    group.getChildren().addAll(avgWaitingTimeLabel, turnAroundTimeLabel);
                 }
                 else {
                     okBtn.setDisable(true);
